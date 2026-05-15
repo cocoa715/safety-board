@@ -30,6 +30,16 @@ export const DATA_SOURCES: DataSource[] = [
     linkText: "portal.kosha.or.kr",
   },
   {
+    key: "law-history",
+    label: "법제처",
+    subLabel: "안전보건규칙 개정이력",
+    shortName: "규칙연혁",
+    siteUrl:
+      "https://www.law.go.kr/법령/산업안전보건기준에관한규칙",
+    apiPath: "/api/law-history",
+    linkText: "law.go.kr",
+  },
+  {
     key: "moel-revision",
     label: "고용노동부",
     subLabel: "최근 제·개정 법령",

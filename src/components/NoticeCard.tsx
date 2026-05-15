@@ -12,6 +12,7 @@ const ACCENT: Record<string, string> = {
   kosha: "bg-blue-500",
   oshri: "bg-violet-500",
   portal: "bg-teal-500",
+  "law-history": "bg-emerald-500",
   "moel-revision": "bg-orange-500",
   "moel-lawmaking": "bg-rose-500",
 };
@@ -20,6 +21,7 @@ const ACCENT_TEXT: Record<string, string> = {
   kosha: "text-blue-400",
   oshri: "text-violet-400",
   portal: "text-teal-400",
+  "law-history": "text-emerald-400",
   "moel-revision": "text-orange-400",
   "moel-lawmaking": "text-rose-400",
 };
