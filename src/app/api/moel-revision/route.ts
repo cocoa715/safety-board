@@ -27,12 +27,15 @@ export async function GET() {
       fetchedAt,
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : "알 수 없는 오류";
+    const stack = error instanceof Error ? error.stack?.slice(0, 300) : "";
     return NextResponse.json({
       success: false,
       data: [],
       source: "moel-revision",
       fetchedAt: new Date().toISOString(),
-      error: error instanceof Error ? `[law.go.kr] ${error.message}` : "알 수 없는 오류",
+      error: `[law.go.kr] ${msg}`,
+      debug: { cause: String((error as any)?.cause || ""), stack },
     });
   }
 }
