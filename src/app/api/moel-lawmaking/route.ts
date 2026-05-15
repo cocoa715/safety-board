@@ -31,7 +31,7 @@ export async function GET() {
       data: [],
       source: "moel-lawmaking",
       fetchedAt: new Date().toISOString(),
-      error: error instanceof Error ? error.message : "알 수 없는 오류",
+      error: error instanceof Error ? `[rss] ${error.message}` : "알 수 없는 오류",
     });
   }
 }
