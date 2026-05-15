@@ -37,7 +37,7 @@ export const DATA_SOURCES: DataSource[] = [
     siteUrl: "https://www.moel.go.kr/info/lawinfo/revision/list.do",
     apiPath: "/api/moel-revision",
     linkText: "moel.go.kr",
-    // externalOnly: true,
+    externalOnly: true,
   },
   {
     key: "moel-lawmaking",
@@ -47,7 +47,7 @@ export const DATA_SOURCES: DataSource[] = [
     siteUrl: "https://www.moel.go.kr/info/lawinfo/lawmaking/list.do",
     apiPath: "/api/moel-lawmaking",
     linkText: "moel.go.kr",
-    // externalOnly: true,
+    externalOnly: true,
   },
 ];
 
