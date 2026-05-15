@@ -195,12 +195,15 @@ export default function NoticeCard({ source }: Props) {
               </svg>
             </div>
             <p className="text-xs text-red-400/80">{error}</p>
-            <button
-              onClick={fetchData}
-              className="mt-3 text-[11px] text-blue-400 hover:text-blue-300 underline underline-offset-2 cursor-pointer"
+            <a
+              href={source.siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-medium ${accent} text-white hover:opacity-90 transition-opacity`}
             >
-              다시 시도
-            </button>
+              사이트 직접 방문
+              <span>&#8599;</span>
+            </a>
           </div>
         ) : notices.length === 0 ? (
           <div className="py-10 text-center text-xs text-slate-500">
