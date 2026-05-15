@@ -1,4 +1,3 @@
-import * as cheerio from "cheerio";
 import { Notice } from "../types";
 import { IMPORTANT_KEYWORDS } from "../constants";
 import { isRecent } from "../utils";
@@ -36,20 +35,30 @@ export async function fetchMoelLawmaking(): Promise<Notice[]> {
     if (!res || !res.ok) throw lastError || new Error("all RSS URLs failed");
 
     const xml = await res.text();
-    const $ = cheerio.load(xml, { xmlMode: true });
     const notices: Notice[] = [];
 
-    $("item").each((i, el) => {
-      if (i >= 5) return false;
+    // <item>...</item> 블록 추출
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
 
-      const title = $(el).find("title").text().trim();
-      const link = $(el).find("link").text().trim();
-      const rawDate = $(el).find("dc\\:date, date").text().trim();
+    while ((match = itemRegex.exec(xml)) !== null && notices.length < 5) {
+      const block = match[1];
 
+      // title: CDATA 또는 일반 텍스트
+      const titleMatch = block.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/);
+      const title = titleMatch ? titleMatch[1].trim() : "";
+
+      // link
+      const linkMatch = block.match(/<link>(.*?)<\/link>/);
+      const link = linkMatch ? linkMatch[1].trim() : "";
+
+      // dc:date
+      const dateMatch = block.match(/<dc:date>(.*?)<\/dc:date>/);
+      const rawDate = dateMatch ? dateMatch[1].trim() : "";
       const date = rawDate.split(" ")[0] || rawDate;
 
       const seqMatch = link.match(/bbs_seq=(\d+)/);
-      const uniqueId = seqMatch ? seqMatch[1] : `${date}-${i}`;
+      const uniqueId = seqMatch ? seqMatch[1] : `${date}-${notices.length}`;
 
       if (title) {
         notices.push({
@@ -61,7 +70,7 @@ export async function fetchMoelLawmaking(): Promise<Notice[]> {
           isNew: isRecent(date),
         });
       }
-    });
+    }
 
     return notices;
   } finally {
