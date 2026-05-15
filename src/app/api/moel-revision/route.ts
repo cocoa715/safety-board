@@ -3,6 +3,7 @@ import { fetchMoelRevision } from "@/lib/scrapers/moel-revision";
 import { getCache, setCache } from "@/lib/cache";
 
 export const dynamic = "force-dynamic";
+export const preferredRegion = ["icn1", "hnd1"];
 
 export async function GET() {
   const cached = getCache("moel-revision");
