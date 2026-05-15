@@ -1,49 +1,41 @@
 import * as cheerio from "cheerio";
 import { Notice } from "../types";
 import { IMPORTANT_KEYWORDS } from "../constants";
-import { normalizeDate, isRecent, resolveHref } from "../utils";
+import { isRecent } from "../utils";
 
-const LIST_URL = "https://www.moel.go.kr/info/lawinfo/lawmaking/list.do";
-const BASE_URL = "https://www.moel.go.kr/info/lawinfo/lawmaking/";
+const RSS_URL = "https://www.moel.go.kr/rss/lawinfo.do";
 
 export async function fetchMoelLawmaking(): Promise<Notice[]> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
 
   try {
-    const res = await fetch(LIST_URL, {
+    const res = await fetch(RSS_URL, {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-        "Accept":
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Referer": "https://www.moel.go.kr/",
-        "Connection": "keep-alive",
+        "Accept": "application/rss+xml, application/xml, text/xml, */*",
       },
       signal: controller.signal,
     });
 
-    if (!res.ok) throw new Error(`MOEL lawmaking failed: ${res.status}`);
+    if (!res.ok) throw new Error(`MOEL RSS failed: ${res.status}`);
 
-    const html = await res.text();
-    const $ = cheerio.load(html);
+    const xml = await res.text();
+    const $ = cheerio.load(xml, { xmlMode: true });
     const notices: Notice[] = [];
 
-    $("table tbody tr").each((i, el) => {
+    $("item").each((i, el) => {
       if (i >= 5) return false;
 
-      const tds = $(el).find("td");
-      const rawTitle = tds.eq(1).text().trim();
-      const rawDate = tds.eq(3).text().trim();
-      const href = tds.eq(1).find("a").attr("href") || "";
+      const title = $(el).find("title").text().trim();
+      const link = $(el).find("link").text().trim();
+      const rawDate = $(el).find("dc\\:date, date").text().trim();
 
-      const title = rawTitle.replace(/\s+/g, " ").trim();
-      const date = normalizeDate(rawDate);
-      const detailUrl = resolveHref(href, BASE_URL, LIST_URL);
+      // "2026-05-14 19:27:56" → "2026-05-14"
+      const date = rawDate.split(" ")[0] || rawDate;
 
-      const seqMatch = href.match(/bbs_seq=(\d+)/);
+      const seqMatch = link.match(/bbs_seq=(\d+)/);
       const uniqueId = seqMatch ? seqMatch[1] : `${date}-${i}`;
 
       if (title) {
@@ -51,7 +43,7 @@ export async function fetchMoelLawmaking(): Promise<Notice[]> {
           id: `moel-law-${uniqueId}`,
           title,
           date,
-          url: detailUrl,
+          url: link,
           isImportant: IMPORTANT_KEYWORDS.some((kw) => title.includes(kw)),
           isNew: isRecent(date),
         });

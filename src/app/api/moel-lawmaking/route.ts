@@ -31,7 +31,7 @@ export async function GET() {
       data: [],
       source: "moel-lawmaking",
       fetchedAt: new Date().toISOString(),
-      error: "고용노동부 사이트 접속 제한 (직접 방문해주세요)",
+      error: error instanceof Error ? error.message : "알 수 없는 오류",
     });
   }
 }
