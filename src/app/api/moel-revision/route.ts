@@ -1,24 +1,13 @@
 import { NextResponse } from "next/server";
 import { fetchMoelRevision } from "@/lib/scrapers/moel-revision";
-import { getCache, setCache } from "@/lib/cache";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const cached = getCache("moel-revision");
-  if (cached) {
-    return NextResponse.json({
-      success: true,
-      data: cached.data,
-      source: "moel-revision",
-      fetchedAt: cached.fetchedAt,
-    });
-  }
-
   try {
     const data = await fetchMoelRevision();
     const fetchedAt = new Date().toISOString();
-    setCache("moel-revision", data, fetchedAt);
     return NextResponse.json({
       success: true,
       data,
