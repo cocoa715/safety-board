@@ -250,14 +250,16 @@ export default function NoticeCard({ source }: Props) {
                 />
               </svg>
             </div>
-            <p className="text-xs text-red-400/80">{error}</p>
+            <p className="text-xs text-slate-400 mb-1">
+              정부 사이트 보안정책으로<br />클라우드 서버 접속이 제한됩니다
+            </p>
             <a
               href={source.siteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`mt-3 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-medium ${accent} text-white hover:opacity-90 transition-opacity`}
+              className={`mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium ${accent} text-white hover:opacity-90 transition-opacity`}
             >
-              사이트 직접 방문
+              {source.subLabel} 바로가기
               <span>&#8599;</span>
             </a>
           </div>
