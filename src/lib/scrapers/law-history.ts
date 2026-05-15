@@ -7,7 +7,8 @@ import { isRecent } from "../utils";
 const HISTORY_URL =
   "https://www.law.go.kr/LSW/lsHstListR.do?lsiSeq=273603&lsId=007363&lsNm=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%EB%B3%B4%EA%B1%B4%EA%B8%B0%EC%A4%80%EC%97%90%20%EA%B4%80%ED%95%9C%20%EA%B7%9C%EC%B9%99&ancYd=20250901&ancNo=00450&efYd=20260302&efYn=Y&chrClsCd=010202&nwJoYnInfo=Y&ancYnChk=0&netPrivateYn=N";
 
-const BASE_URL = "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=";
+// 제정·개정이유 페이지로 바로 이동
+const BASE_URL = "https://www.law.go.kr/LSW/lsRvsDocInfoR.do?lsiSeq=";
 
 export async function fetchLawHistory(): Promise<Notice[]> {
   const controller = new AbortController();
