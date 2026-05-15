@@ -5,7 +5,7 @@ import { isRecent } from "../utils";
 
 // 법제처 국가법령정보센터 - 고용노동부 최근공포법령
 const LIST_URL =
-  "https://www.law.go.kr/LSW/nwRvsLsPop.do?pageIndex=1&cptOfi=1492000";
+  "http://www.law.go.kr/LSW/nwRvsLsPop.do?pageIndex=1&cptOfi=1492000";
 const BASE_URL = "https://www.law.go.kr/LSW/";
 
 export async function fetchMoelRevision(): Promise<Notice[]> {

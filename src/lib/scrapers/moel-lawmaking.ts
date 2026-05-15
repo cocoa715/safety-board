@@ -3,7 +3,7 @@ import { Notice } from "../types";
 import { IMPORTANT_KEYWORDS } from "../constants";
 import { isRecent } from "../utils";
 
-const RSS_URL = "https://www.moel.go.kr/rss/lawinfo.do";
+const RSS_URL = "http://www.moel.go.kr/rss/lawinfo.do";
 
 export async function fetchMoelLawmaking(): Promise<Notice[]> {
   const controller = new AbortController();
