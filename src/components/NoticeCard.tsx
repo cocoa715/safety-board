@@ -101,6 +101,62 @@ export default function NoticeCard({ source }: Props) {
   const accent = ACCENT[source.key] || "bg-blue-500";
   const accentText = ACCENT_TEXT[source.key] || "text-blue-400";
 
+  // externalOnly 소스는 바로가기 카드로 표시
+  if (source.externalOnly) {
+    return (
+      <div className="group flex flex-col rounded-2xl bg-[#111827] border border-white/[0.06] overflow-hidden hover:border-white/[0.12] transition-all duration-300">
+        <div className={`h-[2px] ${accent}`} />
+        <div className="px-5 pt-4 pb-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${accent}/10`}>
+              <span className={`text-xs font-bold ${accentText}`}>
+                {source.shortName.slice(0, 2)}
+              </span>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-white leading-tight">
+                {source.subLabel}
+              </h3>
+              <p className="text-[11px] text-slate-500 mt-0.5">{source.label}</p>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 px-5 pb-2">
+          <div className="py-6 text-center">
+            <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-500/10 mb-3">
+              <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">
+              정부 사이트 보안정책으로<br />클라우드 서버 접속이 제한됩니다
+            </p>
+            <a
+              href={source.siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium ${accent} text-white hover:opacity-90 transition-opacity`}
+            >
+              {source.subLabel} 바로가기
+              <span>&#8599;</span>
+            </a>
+          </div>
+        </div>
+        <div className="mt-auto px-5 py-3 border-t border-white/[0.04] flex items-center justify-between">
+          <span className="text-[10px] text-slate-600">외부 사이트 연결</span>
+          <a
+            href={source.siteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-[10px] ${accentText} opacity-60 hover:opacity-100 transition-opacity`}
+          >
+            {source.linkText}<span className="ml-0.5">&#8599;</span>
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   // 읽지 않은 NEW 게시글 수
   const unreadNewCount = notices.filter(
     (n) => n.isNew && !readIds.has(n.id)

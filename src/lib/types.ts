@@ -23,4 +23,5 @@ export interface DataSource {
   siteUrl: string;
   apiPath: string;
   linkText: string;
+  externalOnly?: boolean;
 }
