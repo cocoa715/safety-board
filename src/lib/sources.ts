@@ -32,8 +32,8 @@ export const DATA_SOURCES: DataSource[] = [
   {
     key: "law-history",
     label: "법제처",
-    subLabel: "안전보건규칙 개정이력",
-    shortName: "규칙연혁",
+    subLabel: "산업안전보건기준에 관한 규칙",
+    shortName: "안전규칙",
     siteUrl:
       "https://www.law.go.kr/법령/산업안전보건기준에관한규칙",
     apiPath: "/api/law-history",
